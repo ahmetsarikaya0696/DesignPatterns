@@ -1,0 +1,53 @@
+﻿using CommandDesignPattern.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace BaseProject
+{
+    public static class Helper
+    {
+        public static async Task SeedDatabase(WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+
+            var serviceProvider = scope.ServiceProvider;
+
+            var identityDbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            await Seed.SeedAsync(identityDbContext, userManager);
+        }
+    }
+
+    public static class Seed
+    {
+        public static async Task SeedAsync(ApplicationDbContext identityDbContext, UserManager<ApplicationUser> userManager)
+        {
+            identityDbContext.Database.Migrate();
+
+            // Seeding users
+            if (!await userManager.Users.AnyAsync())
+            {
+                await userManager.CreateAsync(new ApplicationUser() { UserName = "user1", Email = "user1@outlook.com" }, "Password12**");
+                await userManager.CreateAsync(new ApplicationUser() { UserName = "user2", Email = "user2@outlook.com" }, "Password12**");
+                await userManager.CreateAsync(new ApplicationUser() { UserName = "user3", Email = "user3@outlook.com" }, "Password12**");
+                await userManager.CreateAsync(new ApplicationUser() { UserName = "user4", Email = "user4@outlook.com" }, "Password12**");
+                await userManager.CreateAsync(new ApplicationUser() { UserName = "user5", Email = "user5@outlook.com" }, "Password12**");
+            }
+
+            // Seeding Products
+            if (!await identityDbContext.Products.AnyAsync())
+            {
+                Enumerable.Range(1, 30).ToList().ForEach(x =>
+                {
+                    var rnd = new Random();
+                    decimal price = rnd.Next(1, 1000) * x;
+                    identityDbContext.Products.Add(new() { Name = $"Product {x}", Price = price, Stock = x });
+                });
+
+                await identityDbContext.SaveChangesAsync();
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+﻿@model Settings
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form asp-controller="Settings" asp-action="ChangeDatabase" method="post">
+    <div class="d-flex gap-4">
+        <select class="form-select w-100" asp-for="DatabaseType" asp-items="@Html.GetEnumSelectList<EDatabaseType>()"></select>
+        <button class="btn btn-primary w-50" type="submit">Güncelle</button>
+    </div>
+</form>
+

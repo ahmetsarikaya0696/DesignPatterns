@@ -1,0 +1,12 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="d-flex gap-4 mx-auto">
+    @foreach (var user in Model)
+    {
+        <user-card application-user="@user"></user-card>
+    }
+</div>
+
