@@ -1,4 +1,5 @@
 using BaseProject;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ObserverDesignPattern.Models;
@@ -37,6 +38,8 @@ builder.Services.AddSingleton(serviceProvider =>
 
     return userObserverSubject;
 });
+
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

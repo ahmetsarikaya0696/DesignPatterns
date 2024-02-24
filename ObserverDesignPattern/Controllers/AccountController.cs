@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ObserverDesignPattern.Models;
+using ObserverDesignPattern.Notifications;
 using ObserverDesignPattern.Observer;
 
 namespace ObserverDesignPattern.Controllers
@@ -10,12 +12,14 @@ namespace ObserverDesignPattern.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserObserverSubject _userObserverSubject;
+        private readonly IMediator _mediator;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, UserObserverSubject userObserverSubject)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, UserObserverSubject userObserverSubject, IMediator mediator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userObserverSubject = userObserverSubject;
+            _mediator = mediator;
         }
 
         public IActionResult Login()
@@ -64,7 +68,9 @@ namespace ObserverDesignPattern.Controllers
 
             if (identityResult.Succeeded)
             {
-                _userObserverSubject.NotifyObservers(applicationUser);
+                //_userObserverSubject.NotifyObservers(applicationUser);
+
+                await _mediator.Publish(new UserCreatedNotification() { ApplicationUser = applicationUser });
 
                 ViewBag.message = "Başarılı";
             }
