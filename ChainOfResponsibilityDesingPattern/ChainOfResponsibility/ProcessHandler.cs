@@ -14,8 +14,8 @@
 
         public IProcessHandler SetNext(IProcessHandler processHandler)
         {
-            processHandler = nextProcessHandler;
-            return processHandler;
+            nextProcessHandler = processHandler;
+            return nextProcessHandler;
         }
     }
 }

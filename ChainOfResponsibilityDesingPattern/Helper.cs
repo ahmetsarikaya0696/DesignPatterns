@@ -39,7 +39,7 @@ namespace BaseProject
             {
                 Enumerable.Range(1, 20).ToList().ForEach(x =>
                 {
-                    identityDbContext.Products.Add(new Product() { Name = $"Product {x}", Price = 100 * x, Stock = 200 * x })
+                    identityDbContext.Products.Add(new Product() { Name = $"Product {x}", Price = 100 * x, Stock = 200 * x });
                 });
 
                 await identityDbContext.SaveChangesAsync();
