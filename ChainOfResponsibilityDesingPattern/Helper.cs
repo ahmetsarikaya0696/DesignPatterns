@@ -35,6 +35,15 @@ namespace BaseProject
                 await userManager.CreateAsync(new ApplicationUser() { UserName = "user5", Email = "user5@outlook.com" }, "Password12**");
             }
 
+            if (!await identityDbContext.Products.AnyAsync())
+            {
+                Enumerable.Range(1, 20).ToList().ForEach(x =>
+                {
+                    identityDbContext.Products.Add(new Product() { Name = $"Product {x}", Price = 100 * x, Stock = 200 * x })
+                });
+
+                await identityDbContext.SaveChangesAsync();
+            }
         }
     }
 }
