@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObserverDesignPattern", "Ob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainOfResponsibilityDesingPattern", "ChainOfResponsibilityDesingPattern\ChainOfResponsibilityDesingPattern.csproj", "{A25B1276-17EA-4714-832D-938E493030FE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompositeDesignPattern", "CompositeDesignPattern\CompositeDesignPattern.csproj", "{04AF00D7-29C2-4E20-B278-3A97B3166B04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A25B1276-17EA-4714-832D-938E493030FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25B1276-17EA-4714-832D-938E493030FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25B1276-17EA-4714-832D-938E493030FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04AF00D7-29C2-4E20-B278-3A97B3166B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04AF00D7-29C2-4E20-B278-3A97B3166B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04AF00D7-29C2-4E20-B278-3A97B3166B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04AF00D7-29C2-4E20-B278-3A97B3166B04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
