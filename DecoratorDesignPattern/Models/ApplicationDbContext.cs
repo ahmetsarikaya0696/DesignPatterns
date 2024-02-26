@@ -9,5 +9,7 @@ namespace DecoratorDesignPattern.Models
         {
 
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
