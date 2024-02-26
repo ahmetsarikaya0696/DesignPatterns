@@ -2,8 +2,10 @@
 using CompositeDesignPattern.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Web;
 
 namespace CompositeDesignPattern.Controllers
 {
@@ -31,6 +33,8 @@ namespace CompositeDesignPattern.Controllers
             var menu = GetMenu(categories, topCategory, topComposite);
 
             ViewBag.menu = menu;
+
+            ViewBag.selectList = menu.Components.SelectMany(x => ((BookComposite)x).GetSelectList());
 
             return View();
         }

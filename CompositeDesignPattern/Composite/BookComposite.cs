@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
+using System.Web;
 
 namespace CompositeDesignPattern.Composite
 {
@@ -45,5 +47,27 @@ namespace CompositeDesignPattern.Composite
 
             return stringBuilder.ToString();
         }
+
+        public List<SelectListItem> GetSelectList(string space = "")
+        {
+            space = HttpUtility.HtmlDecode(space);
+
+            var list = new List<SelectListItem>() { new() { Text = $"{space}{Name}", Value = Id.ToString() } };
+
+            if (Components.Any(x => x is BookComposite))
+            {
+                space += "&nbsp;&nbsp;&nbsp;&nbsp;";
+                Components.ToList().ForEach(x =>
+                {
+                    if (x is BookComposite bookComposite)
+                    {
+                        list.AddRange(bookComposite.GetSelectList(space));
+                    }
+                });
+            }
+
+            return list;
+        }
+
     }
 }
