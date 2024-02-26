@@ -1,11 +1,13 @@
 ﻿using CompositeDesignPattern.Composite;
 using CompositeDesignPattern.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CompositeDesignPattern.Controllers
 {
+    [Authorize]
     public class CategoryMenuController : Controller
     {
         private readonly ApplicationDbContext _applicationDbContext;
@@ -27,6 +29,8 @@ namespace CompositeDesignPattern.Controllers
             var topCategory = new Category { Id = 0, Name = "Top Category" };
             var topComposite = new BookComposite(0, "Top Menu");
             var menu = GetMenu(categories, topCategory, topComposite);
+
+            ViewBag.menu = menu;
 
             return View();
         }

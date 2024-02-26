@@ -6,8 +6,7 @@ namespace CompositeDesignPattern.Composite
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        private List<IComponent> components;
+        public List<IComponent> Components { get; private set; } = new();
 
         public BookComposite(int id, string name)
         {
@@ -17,27 +16,27 @@ namespace CompositeDesignPattern.Composite
 
         public void Add(IComponent component)
         {
-            components.Add(component);
+            Components.Add(component);
         }
 
         public void Remove(IComponent component)
         {
-            components.Remove(component);
+            Components.Remove(component);
         }
 
-        public int Count() => components.Sum(x => x.Count());
+        public int Count() => Components.Sum(x => x.Count());
 
         public string Display()
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<div class='text-primary my-1'><a href='#' class='menu'>{Name} ({Count})</a></div>");
+            stringBuilder.Append($"<div class='text-primary my-1'><a href='#' class='menu'>{Name} ({Count()})</a></div>");
 
-            if (!components.Any()) return stringBuilder.ToString();
+            if (!Components.Any()) return stringBuilder.ToString();
 
             stringBuilder.Append("<ul class='list-group list-group-flush ms-3'>");
 
-            foreach (var component in components)
+            foreach (var component in Components)
             {
                 stringBuilder.Append(component.Display());
             }
