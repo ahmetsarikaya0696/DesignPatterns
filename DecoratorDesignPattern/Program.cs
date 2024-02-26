@@ -25,6 +25,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
+/*
+// Decorator kütüphane kullanmadan
 builder.Services.AddScoped<IProductRepository>(serviceProvider =>
 {
     var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
@@ -38,6 +40,12 @@ builder.Services.AddScoped<IProductRepository>(serviceProvider =>
 
     return logDecorator;
 });
+*/
+
+// scrutor ile decorator kullanýmý
+builder.Services.AddScoped<IProductRepository, ProductRepository>()
+                .Decorate<IProductRepository, ProductRepositoryCacheDecorator>()
+                .Decorate<IProductRepository, ProductRepositoryLogDecorator>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
