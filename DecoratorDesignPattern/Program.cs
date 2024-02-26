@@ -29,12 +29,14 @@ builder.Services.AddScoped<IProductRepository>(serviceProvider =>
 {
     var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
     var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+    var logger = serviceProvider.GetRequiredService<ILogger<ProductRepositoryLogDecorator>>();
 
     var productRepository = new ProductRepository(context);
 
     var cacheDecorator = new ProductRepositoryCacheDecorator(productRepository, memoryCache);
+    var logDecorator = new ProductRepositoryLogDecorator(cacheDecorator, logger);
 
-    return cacheDecorator;
+    return logDecorator;
 });
 
 // Add services to the container.
