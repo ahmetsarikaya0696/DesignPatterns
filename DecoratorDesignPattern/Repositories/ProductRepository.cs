@@ -40,7 +40,7 @@ namespace DecoratorDesignPattern.Repositories
             await _applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Product product)
+        public async Task UpdateAsync(Product product)
         {
             _applicationDbContext.Update(product);
             await _applicationDbContext.SaveChangesAsync();

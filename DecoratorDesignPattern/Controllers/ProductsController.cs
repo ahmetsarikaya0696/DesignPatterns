@@ -97,7 +97,7 @@ namespace DecoratorDesignPattern.Controllers
             {
                 try
                 {
-                    await _productRepository.Update(product);
+                    await _productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

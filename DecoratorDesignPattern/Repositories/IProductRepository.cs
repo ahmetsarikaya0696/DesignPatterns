@@ -8,7 +8,7 @@ namespace DecoratorDesignPattern.Repositories
         Task<List<Product>> GetAllAsync();
         Task<List<Product>> GetAllAsync(string userId);
         Task<Product> AddAsync(Product product);
-        Task Update(Product product);
+        Task UpdateAsync(Product product);
         Task RemoveAsync(Product product);
     }
 }
