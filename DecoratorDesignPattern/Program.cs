@@ -1,11 +1,15 @@
 using BaseProject;
 using DecoratorDesignPattern.Models;
 using DecoratorDesignPattern.Repositories;
+using DecoratorDesignPattern.Repositories.Decorator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMemoryCache();
 
 var connectionString = builder.Configuration.GetConnectionString("designPatternsDb");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -21,7 +25,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductRepository>(serviceProvider =>
+{
+    var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+    var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+
+    var productRepository = new ProductRepository(context);
+
+    var cacheDecorator = new ProductRepositoryCacheDecorator(productRepository, memoryCache);
+
+    return cacheDecorator;
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
