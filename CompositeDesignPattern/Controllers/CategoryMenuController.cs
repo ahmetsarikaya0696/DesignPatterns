@@ -34,7 +34,7 @@ namespace CompositeDesignPattern.Controllers
 
             ViewBag.menu = menu;
 
-            ViewBag.selectList = menu.Components.SelectMany(x => ((BookComposite)x).GetSelectList());
+            ViewBag. selectList = menu.Components.SelectMany(x => ((BookComposite)x).GetSelectList());
 
             return View();
         }
