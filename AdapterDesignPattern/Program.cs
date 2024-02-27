@@ -24,7 +24,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IImageProcess, ImageProcess>();
+builder.Services.AddScoped<IAdvancedImageProcess, AdvancedImageProcess>();
+builder.Services.AddScoped<IImageProcess, AdvancedImageProcessAdapter>();
 
 var app = builder.Build();
 
