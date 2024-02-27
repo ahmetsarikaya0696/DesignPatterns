@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMemoryCache();
 
+builder.Services.AddHttpContextAccessor();
+
 var connectionString = builder.Configuration.GetConnectionString("designPatternsDb");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -42,10 +44,36 @@ builder.Services.AddScoped<IProductRepository>(serviceProvider =>
 });
 */
 
+/*
 // scrutor ile decorator kullanýmý
 builder.Services.AddScoped<IProductRepository, ProductRepository>()
                 .Decorate<IProductRepository, ProductRepositoryCacheDecorator>()
                 .Decorate<IProductRepository, ProductRepositoryLogDecorator>();
+*/
+
+// Runtime ' da dinamik olarak decorator kullanýmý
+builder.Services.AddScoped<IProductRepository>(serviceProvider =>
+{
+    var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+
+    var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+    var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+    var logger = serviceProvider.GetRequiredService<ILogger<ProductRepositoryLogDecorator>>();
+
+    var productRepository = new ProductRepository(context);
+
+
+    if (httpContextAccessor.HttpContext.User.Identity.Name == "user1")
+    {
+        var cacheDecorator = new ProductRepositoryCacheDecorator(productRepository, memoryCache);
+        return cacheDecorator;
+    }
+
+    var logDecorator = new ProductRepositoryLogDecorator(productRepository, logger);
+    return logDecorator;
+});
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
