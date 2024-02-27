@@ -1,5 +1,6 @@
 using AdapterDesignPattern;
 using AdapterDesignPattern.Models;
+using AdapterDesignPattern.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -22,6 +23,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IImageProcess, ImageProcess>();
 
 var app = builder.Build();
 
